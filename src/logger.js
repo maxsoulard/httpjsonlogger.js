@@ -1,4 +1,4 @@
-var fs = require('fs');
+const fs = require('fs');
 
 const BODY_SUFFIX = '.body.json';
 const RAW_SUFFIX = '.raw.json';
