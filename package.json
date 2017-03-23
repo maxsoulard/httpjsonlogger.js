@@ -2,7 +2,7 @@
   "name": "httpmonitor.js",
   "version": "0.0.1",
   "description": "Super light proxy which log all HTTP requests in json files.",
-  "main": "index.js",
+  "main": "src/main.js",
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
@@ -11,6 +11,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Maxime Soulard",
