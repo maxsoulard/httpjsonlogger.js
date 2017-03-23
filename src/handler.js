@@ -12,24 +12,30 @@ winston.configure({
 module.exports = {
 
     get: function (input, output) {
-
         var httpLogger = logger.init(input).prepare();
-        
+
+        var data='';
         request({
-            headers: input.headers,
+            method: 'GET',
+            preambleCRLF: true,
+            postambleCRLF: true,
             uri: input.originalUrl,
-            method:  input.method,
+            'content-type': 'application/json',
             params: input.params
-        }, function(error, __response, body) {
-            output.send(__response.body);
+        })
+        .on('data', function(chunk) {
+            data += chunk;
+        })
+        .on('end', function() {
             try {
-                __response.body = JSON.parse(__response.body);
-                httpLogger.log(__response);
+                output.body = JSON.parse(data);
+                httpLogger.log(output);
             } catch (e) {
                 winston.log('error', e);
                 return;
             }
-        });
+        })
+        .pipe(output);
     },
 
     post: function (input, output) {
