@@ -35,13 +35,13 @@ function File(_request) {
     },
 
     this._logRaw = function(_response) {
-        var headers = JSON.stringify(_response.request.headers, null, "\t");
+        var headers = JSON.stringify(this._request.headers, null, "\t");
         var requestBody = this._request.body ? JSON.stringify(this._request.body) : "";
         var body = _response.body;
         var content = [
-                _response.request.method,
+                this._request.method,
                 "\t",
-                _response.request.path,
+                this._request.path,
                 "\nREQUEST HEADERS\n",
                 headers,
                 "\nREQUEST BODY\n",
