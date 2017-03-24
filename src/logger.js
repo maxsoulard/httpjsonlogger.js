@@ -41,7 +41,7 @@ function File(_request) {
         var content = [
                 this._request.method,
                 "\t",
-                this._request.path,
+                this._request.originalUrl,
                 "\nREQUEST HEADERS\n",
                 headers,
                 "\nREQUEST BODY\n",
