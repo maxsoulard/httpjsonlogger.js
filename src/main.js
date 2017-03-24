@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get(conf.routeFilter, handler.get);
-/*app.post(conf.routeFilter, handler.post);
+app.post(conf.routeFilter, handler.post);
 app.put(conf.routeFilter, handler.put);
-app.delete(conf.routeFilter, handler.delete);*/
+/*app.delete(conf.routeFilter, handler.delete);*/
 
 app.listen('8888');
