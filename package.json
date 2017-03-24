@@ -1,7 +1,7 @@
 {
-  "name": "httpmonitor.js",
+  "name": "httpjsonlogger.js",
   "version": "0.0.1",
-  "description": "Super light proxy which log all HTTP requests in json files.",
+  "description": "Super light proxy which log all HTTP JSON content.",
   "main": "src/main.js",
   "dependencies": {
     "body-parser": "^1.17.1",
