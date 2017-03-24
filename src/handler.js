@@ -20,6 +20,7 @@ module.exports = {
             preambleCRLF: true,
             postambleCRLF: true,
             uri: input.originalUrl,
+            headers: input.headers,
             'content-type': 'application/json',
             params: input.params
         })
