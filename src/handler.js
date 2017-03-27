@@ -4,8 +4,8 @@ const jsonLogger = require('./logger');
 const winston = require('winston');
 
 winston.configure({
-    transports: [
-      new (winston.transports.File)({ filename: 'httpmonitor.js.log' })
+    transports: [ 
+      new (winston.transports.File)({ filename: "httpjsonlogger.log" })
     ]
   });
 
@@ -26,7 +26,6 @@ function handle(creq, cres) {
         uri: creq.originalUrl,
         headers: creq.headers,
         'content-type': 'application/json',
-        params: creq.params,
         json: creq.body
     })
     .on('data', function(chunk) {
