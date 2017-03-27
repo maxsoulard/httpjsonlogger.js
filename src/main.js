@@ -15,4 +15,4 @@ app.post(conf.routeFilter, handler.post);
 app.put(conf.routeFilter, handler.put);
 app.delete(conf.routeFilter, handler.delete);
 
-app.listen('8888');
+app.listen(conf.port);
