@@ -18,9 +18,9 @@ module.exports = {
     _getFileName: function(_request) {
         var fileName = '';
         var url = _request.originalUrl.split(/[\?]/);
-        url = url[0].match(/http:\/\/\w+:?\d*(.*)/)[1].replace(/[\/]/g, ".");
+        url = url[0].match(/http:\/\/(.*)/)[1].replace(/[:]/g, ".").replace(/[\/]/g, ".");
         
-        return './log/' + [Date.now()] + '.' + _request.method + url;;
+        return './log/' + [Date.now()] + '.' + _request.method + "_" + url;
     },
 
     _logBody: function(body, fileName) {
