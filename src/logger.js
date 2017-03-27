@@ -4,44 +4,37 @@ const BODY_SUFFIX = '.body.json';
 const RAW_SUFFIX = '.raw.json';
 
 module.exports = {
+    log: function(_request, _response) {
+        var fileName = this._getFileName(_request);
 
-    init: function(_request) {
-        return new File(_request);
-    }
-}
+        this._logBody(_response.body, fileName + '.response' + BODY_SUFFIX);
 
-function File(_request) {
-    this._request = _request;
+        var isRequestBodyNotEmpty = _request.body && Object.keys(_request.body).length;
+        if (isRequestBodyNotEmpty)  this._logBody(_request.body, fileName + '.request' + BODY_SUFFIX);
 
-    this.prepare = function() {
-        var urls = this._request.originalUrl.split(/[\?]/);
-        urls = urls[0].split(/[\/]+/);
-        this.fileName = './log/' + [Date.now()] + '.' + this._request.method + '.' + urls[urls.length-1];
+        this._logRaw(_request, _response, fileName + RAW_SUFFIX);
+    },
+
+    _getFileName: function(_request) {
+        var fileName = '';
+        var url = _request.originalUrl.split(/[\?]/);
+        url = url[0].match(/http:\/\/\w+:?\d*(.*)/)[1].replace(/[\/]/g, ".");
         
-        return this;
-    }
-
-    this.log = function(_response) {
-        this._logBody(_response.body, '.response' + BODY_SUFFIX);
-
-        var isRequestBodyNotEmpty = this._request.body && Object.keys(this._request.body).length;
-        if (isRequestBodyNotEmpty)  this._logBody(this._request.body, '.request' + BODY_SUFFIX);
-
-        this._logRaw(_response);
+        return './log/' + [Date.now()] + '.' + _request.method + url;;
     },
 
-    this._logBody = function(body, suffix) {
-        return fs.writeFile(this.fileName + suffix, JSON.stringify(body, null, "\t"));
+    _logBody: function(body, fileName) {
+        return fs.writeFile(fileName, JSON.stringify(body, null, "\t"));
     },
 
-    this._logRaw = function(_response) {
-        var headers = JSON.stringify(this._request.headers, null, "\t");
-        var requestBody = this._request.body ? JSON.stringify(this._request.body) : "";
+    _logRaw: function(_request, _response, fileName) {
+        var headers = JSON.stringify(_request.headers, null, "\t");
+        var requestBody = _request.body ? JSON.stringify(_request.body) : "";
         var body = _response.body;
         var content = [
-                this._request.method,
+                _request.method,
                 "\t",
-                this._request.originalUrl,
+                _request.originalUrl,
                 "\nREQUEST HEADERS\n",
                 headers,
                 "\nREQUEST BODY\n",
@@ -53,6 +46,6 @@ function File(_request) {
                 "\n\nBODY\n",
                 JSON.stringify(body, null)
             ].join("");
-        return fs.writeFile(this.fileName + RAW_SUFFIX, content);
+        return fs.writeFile(fileName, content);
     }
 }

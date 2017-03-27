@@ -1,6 +1,6 @@
 const fs = require('fs');
 const request = require('request');
-const logger = require('./logger');
+const jsonLogger = require('./logger');
 const winston = require('winston');
 
 winston.configure({
@@ -17,7 +17,6 @@ module.exports = {
 }
 
 function handle(creq, cres) {
-    var httpLogger = logger.init(creq).prepare();
     var data='';
     
     request({
@@ -36,7 +35,7 @@ function handle(creq, cres) {
     .on('end', function() {
         try {
             cres.body = JSON.parse(data);
-            httpLogger.log(cres);
+            jsonLogger.log(creq, cres);
         } catch (e) {
             winston.log('error', e);
             return;
