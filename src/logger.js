@@ -4,6 +4,7 @@ const BODY_SUFFIX = '.body.json';
 const RAW_SUFFIX = '.raw.json';
 
 module.exports = {
+    
     log: function(_request, _response) {
         var fileName = this._getFileName(_request);
 
@@ -20,11 +21,11 @@ module.exports = {
         var url = _request.originalUrl.split(/[\?]/);
         url = url[0].match(/http:\/\/(.*)/)[1].replace(/[:]/g, ".").replace(/[\/]/g, ".");
         
-        return './log/' + [Date.now()] + '.' + _request.method + "_" + url;
+        return [Date.now()] + '.' + _request.method + "_" + url;
     },
 
     _logBody: function(body, fileName) {
-        return fs.writeFile(fileName, JSON.stringify(body, null, "\t"));
+        return this._writeFile(fileName, JSON.stringify(body, null, "\t"));
     },
 
     _logRaw: function(_request, _response, fileName) {
@@ -46,6 +47,18 @@ module.exports = {
                 "\n\nBODY\n",
                 JSON.stringify(body, null)
             ].join("");
-        return fs.writeFile(fileName, content);
+        
+        return this._writeFile(fileName, content);
+    },
+
+    _writeFile: function(fileName, content) {
+        try {
+            fs.mkdirSync(conf.dir);
+        } catch (e) {
+            if (e.code !== "EEXIST")    throw e;
+            else                        return;
+        } finally {
+            return fs.writeFile(conf.dir + fileName, content);
+        }        
     }
 }

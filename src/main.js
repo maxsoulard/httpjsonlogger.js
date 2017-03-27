@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const handler = require('./handler');
 const app = express();
-const conf = require('../conf');
+conf = require('../conf');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
