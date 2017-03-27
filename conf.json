@@ -1,3 +1,5 @@
 {
-    "routeFilter": "*"
+    "port": "8888",
+    "routeFilter": "*",
+    "dir": "./log/"
 }
