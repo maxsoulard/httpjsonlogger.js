@@ -17,7 +17,7 @@ module.exports = {
 }
 
 function handle(creq, cres) {
-    var data='';
+    var data = '';
     
     request({
         method: creq.method,
@@ -34,7 +34,7 @@ function handle(creq, cres) {
     })
     .on('end', function() {
         try {
-            cres.body = JSON.parse(data);
+            if (data != '')     cres.body = JSON.parse(data);
             jsonLogger.log(creq, cres);
         } catch (e) {
             winston.log('error', e);

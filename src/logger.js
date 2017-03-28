@@ -25,7 +25,7 @@ module.exports = {
     },
 
     _logBody: function(body, fileName) {
-        return this._writeFile(fileName, JSON.stringify(body, null, "\t"));
+        return body ? this._writeFile(fileName, JSON.stringify(body, null, "\t")) : null;
     },
 
     _logRaw: function(_request, _response, fileName) {
