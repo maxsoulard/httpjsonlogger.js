@@ -28,6 +28,9 @@ function handle(creq, cres) {
         'content-type': 'application/json',
         json: creq.body
     })
+    .on('error', function (e) {
+        winston.log('error', e);
+    })
     .on('data', function(chunk) {
         data += chunk;
     })
