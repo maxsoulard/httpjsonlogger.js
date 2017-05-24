@@ -4,8 +4,8 @@ const jsonLogger = require('./logger');
 const winston = require('winston');
 
 winston.configure({
-    transports: [
-      new (winston.transports.File)({ filename: 'httpmonitor.js.log' })
+    transports: [ 
+      new (winston.transports.File)({ filename: "httpjsonlogger.log" })
     ]
   });
 
@@ -17,7 +17,7 @@ module.exports = {
 }
 
 function handle(creq, cres) {
-    var data='';
+    var data = '';
     
     request({
         method: creq.method,
@@ -26,15 +26,17 @@ function handle(creq, cres) {
         uri: creq.originalUrl,
         headers: creq.headers,
         'content-type': 'application/json',
-        params: creq.params,
         json: creq.body
+    })
+    .on('error', function (e) {
+        winston.log('error', e);
     })
     .on('data', function(chunk) {
         data += chunk;
     })
     .on('end', function() {
         try {
-            cres.body = JSON.parse(data);
+            if (data != '')     cres.body = JSON.parse(data);
             jsonLogger.log(creq, cres);
         } catch (e) {
             winston.log('error', e);
